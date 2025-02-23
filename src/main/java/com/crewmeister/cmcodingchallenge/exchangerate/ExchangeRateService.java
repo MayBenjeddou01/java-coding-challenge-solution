@@ -22,6 +22,8 @@ public class ExchangeRateService {
 
     public ExchangeRate getExchangeRateByDate(String currencyCode, LocalDate date) {
         return exchangeRateRepository.findByCurrencyCodeAndDate(currencyCode, date)
+            .stream()
+            .findFirst()
             .orElseThrow(() -> new RuntimeException("Exchange rate not found for currency " + currencyCode + " on date " + date));
     }
 
