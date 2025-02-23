@@ -1,22 +1,26 @@
 package com.crewmeister.cmcodingchallenge.currency;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.List;
 
-@RestController()
+@RestController
 @RequestMapping("/api")
 public class CurrencyController {
 
-    @GetMapping("/currencies")
-    public ResponseEntity<ArrayList<CurrencyConversionRates>> getCurrencies() {
-        ArrayList<CurrencyConversionRates> currencyConversionRates = new ArrayList<CurrencyConversionRates>();
-        currencyConversionRates.add(new CurrencyConversionRates(2.5));
+    private final CurrencyService currencyService;
 
-        return new ResponseEntity<ArrayList<CurrencyConversionRates>>(currencyConversionRates, HttpStatus.OK);
+    @Autowired
+    public CurrencyController(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
+
+    @GetMapping("/currencies")
+    public ResponseEntity<List<Currency>> getAllCurrencies() {
+        return ResponseEntity.ok(currencyService.getAllCurrencies());
     }
 }
