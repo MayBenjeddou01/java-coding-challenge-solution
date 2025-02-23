@@ -10,7 +10,7 @@ import com.crewmeister.cmcodingchallenge.exchangerate.dto.CurrencyConversionRequ
 import com.crewmeister.cmcodingchallenge.exchangerate.dto.CurrencyConversionResponse;
 
 @RestController
-@RequestMapping("/api/exchange-rates")
+@RequestMapping("/api")
 public class ExchangeRateController {
 
     private final ExchangeRateService exchangeRateService;
@@ -20,12 +20,13 @@ public class ExchangeRateController {
         this.exchangeRateService = exchangeRateService;
     }
 
-    @GetMapping("/{currencyCode}")
+    @GetMapping("/exchange-rates/{currencyCode}")
     public ResponseEntity<List<ExchangeRate>> getAllExchangeRates(@PathVariable String currencyCode) {
-        return ResponseEntity.ok(exchangeRateService.getAllExchangeRates(currencyCode));
+        List<ExchangeRate> rates = exchangeRateService.getAllExchangeRates(currencyCode);
+        return ResponseEntity.ok(rates);
     }
 
-    @GetMapping("/{currencyCode}/date/{date}")
+    @GetMapping("/exchange-rates/{currencyCode}/date/{date}")
     public ResponseEntity<ExchangeRate> getExchangeRateByDate(
             @PathVariable String currencyCode,
             @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
